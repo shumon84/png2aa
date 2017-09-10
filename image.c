@@ -199,7 +199,7 @@ image_t *image_to_index(image_t *img) {
 /**
  * @brief 引数の画像をRGB方式に変換する。
  *
- * RGBA形式の場合は、白背景に変換する。
+ * RGBA形式の場合は、黒背景に変換する。
  * 背景色を指定したい場合は
  * image_rgba_to_rgb()
  * を利用すること。
@@ -224,7 +224,7 @@ image_t *image_to_gray(image_t *img) {
       img = image_rgb_to_gray(img);
       break;
     case COLOR_TYPE_RGBA:
-      img = image_rgba_to_rgb(img, color_from_rgb(255, 255, 255));
+      img = image_rgba_to_rgb(img, color_from_rgb(0, 0, 0));
       img = image_rgb_to_gray(img);
       break;
   }
