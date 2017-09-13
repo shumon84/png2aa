@@ -18,4 +18,4 @@ $ ./png2aa [image file] [width]
 shumon84
 
 ## License
-[MIT License](https://github.com/shumon84/png2aa/blob/master/LICENSE.txt)
+[MIT License](https://github.com/shumon84/png2aa/blob/master/LICENSE)
