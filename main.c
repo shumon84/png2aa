@@ -146,13 +146,13 @@ double white_ratio(image_t *img,int y1,int y2,int x1,int x2)
 	n++;
       }
 
-  return ((double)sum/n)/255*0.268091;
+  return ((double)sum/n)/255*0.268091*0.8;
 }
 
 char block_to_ascii(image_t *img,double unitH,double unitW,int y,int x)
 {
   double ratio=white_ratio(img,unitH*y,unitH*(y+1),unitW*x,unitW*(x+1));
-   char ascii;
+  char ascii;
   int i;
   for(i=0;i<96;i++)
     if(ratio<palette[i].ratio)
@@ -165,14 +165,76 @@ char block_to_ascii(image_t *img,double unitH,double unitW,int y,int x)
   return ascii;
 }
 
+image_t* make_bound_box(image_t *img)
+{  
+  uint32_t i,j;
+  uint32_t x=img->width/2;
+  uint32_t y=img->height/2;
+  uint32_t maxx=0;
+  uint32_t maxy=0;
+  uint32_t minx=0;
+  uint32_t miny=0;
+
+  for(i=0;i<y;i++)
+    for(j=0;j<img->width;j++)
+      if(img->map[i][j].g!=0x00)
+	{
+	  miny=i;
+	  i=y;
+	  break;
+	}
+  for(i=img->height-1;i>y;i--)
+    for(j=0;j<img->width;j++)
+      if(img->map[i][j].g!=0x00)
+	{
+	  maxy=i;
+	  i=y;
+	  break;
+	}
+  for(i=0;i<x;i++)
+    for(j=0;j<img->height;j++)
+      if(img->map[j][i].g!=0x00)
+	{
+	  minx=i;
+	  i=x;
+	  break;
+	}
+  for(i=img->width-1;i>x;i--)
+    for(j=0;j<img->height;j++)
+      if(img->map[j][i].g!=0x00)
+	{
+	  maxx=i;
+	  i=x;
+	  break;
+	}
+
+  uint32_t width=maxx-minx+1;
+  uint32_t height=maxy-miny+1;
+  image_t *bound_box=allocate_image(width,height,COLOR_TYPE_GRAY);
+  dump_image_info(img); // debug
+  dump_image_info(bound_box); // debug
+  printf("y=%d\nminy=%d,maxy=%d\n",y,miny,maxy); // debug
+  printf("x=%d\nminx=%d,maxx=%d\n",x,minx,maxx); // debug
+  
+  for(i=0;i<height;i++)
+    for(j=0;j<width;j++)
+      bound_box->map[i][j].g=img->map[miny+i][minx+j].g;
+  
+  write_png_file("box.png",bound_box); // debug
+  
+  return bound_box;
+}
+
 void image_to_aa(image_t *img,int width)
 {
+  image_to_gray(img);
+  img=make_bound_box(img); 
+  write_png_file("test.png",img); // debug
   if(img->width<width)
     {
       fprintf(stderr,"Width = %d is too large.\n",width);
       exit(1);
     }
-  image_to_gray(img);
   double unitW=(double)img->width/width;
   double unitH=(double)unitW*1.95;
   int height=(double)(img->height*width)/(img->width*1.95);
@@ -183,8 +245,11 @@ void image_to_aa(image_t *img,int width)
     {
       for(j=0;j<width;j++)
 	putchar(block_to_ascii(img,unitH,unitW,i,j));
-      putchar('\n');
+      // putchar('\n');
+      printf(" : %3d\n",i); // debug
     }
+  printf("W=%d,H=%d\nuW=%.2lf,uH=%.2lf\n",width,height,unitW,unitH); // debug
+  dump_image_info(img); // debug
 }
 
 int main(int argc,char *argv[])
