@@ -211,16 +211,10 @@ image_t* make_bound_box(image_t *img)
   uint32_t width=maxx-minx+1;
   uint32_t height=maxy-miny+1;
   image_t *bound_box=allocate_image(width,height,COLOR_TYPE_GRAY);
-  dump_image_info(img); // debug
-  dump_image_info(bound_box); // debug
-  printf("y=%d\nminy=%d,maxy=%d\n",y,miny,maxy); // debug
-  printf("x=%d\nminx=%d,maxx=%d\n",x,minx,maxx); // debug
   
   for(i=0;i<height;i++)
     for(j=0;j<width;j++)
       bound_box->map[i][j].g=img->map[miny+i][minx+j].g;
-  
-  write_png_file("box.png",bound_box); // debug
   
   return bound_box;
 }
@@ -229,7 +223,6 @@ void image_to_aa(image_t *img,int width)
 {
   image_to_gray(img);
   img=make_bound_box(img); 
-  write_png_file("test.png",img); // debug
   if(img->width<width)
     {
       fprintf(stderr,"Width = %d is too large.\n",width);
@@ -245,11 +238,8 @@ void image_to_aa(image_t *img,int width)
     {
       for(j=0;j<width;j++)
 	putchar(block_to_ascii(img,unitH,unitW,i,j));
-      // putchar('\n');
-      printf(" : %3d\n",i); // debug
+      putchar('\n');
     }
-  printf("W=%d,H=%d\nuW=%.2lf,uH=%.2lf\n",width,height,unitW,unitH); // debug
-  dump_image_info(img); // debug
 }
 
 int main(int argc,char *argv[])
