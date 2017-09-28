@@ -289,7 +289,6 @@ void option_check(int num,char *opt[])
 	}
     }
   if(invalid)exit(1);
-  printf("aiut"); // debug
 }
 
 int main(int argc,char *argv[])
