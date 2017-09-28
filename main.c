@@ -3,6 +3,8 @@
 #include<stdlib.h>
 #include"image.h"
 
+int opt_white=0;
+
 const struct {
   char ascii;
   double ratio;
@@ -145,8 +147,9 @@ double white_ratio(image_t *img,int y1,int y2,int x1,int x2)
 	sum+=img->map[i][j].g;
 	n++;
       }
-
-  return ((double)sum/n)/255*0.268091*0.8;
+  double ratio=(double)sum/n;
+  if(opt_white)ratio=255-ratio;
+  return ratio/255*0.268091;
 }
 
 char block_to_ascii(image_t *img,double unitH,double unitW,int y,int x)
@@ -242,11 +245,29 @@ void image_to_aa(image_t *img,int width)
     }
 }
 
+void option_check(int num,char *opt[])
+{
+  int i;
+  int p;
+  int invalid=0;
+  for(i=3;i<num;i++)
+    {
+      if(opt[i][1]=='-')p=1;
+      else p=0;
+      switch(opt[i][1+p])
+	{
+	case 'w': opt_white=1;break;
+	default : fprintf(stderr,"%s:invalid option\n",opt[i]);invalid=1;break;
+	}
+    }
+  if(invalid)exit(1);
+}
+
 int main(int argc,char *argv[])
 {
-  if(argc!=3)
+  if(argc<3)
     {
-      fprintf(stderr,"Usage:%s [*.png|*.jpg|*.bmp|*.pnm] [width]\n",argv[0]);
+      fprintf(stderr,"Usage:%s [*.png|*.jpg|*.bmp|*.pnm] [width] [-option]\n",argv[0]);
       exit(1);
     }
   int width=0;
@@ -255,6 +276,8 @@ int main(int argc,char *argv[])
       fprintf(stderr,"\"%s\" is not unsigned int.\n",argv[2]);
       exit(1);
     }
+
+  option_check(argc,argv);
   
   image_to_aa(read_image(argv[1]),width);
 
