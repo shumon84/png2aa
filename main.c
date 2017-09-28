@@ -1,9 +1,11 @@
 #include<stdio.h>
 #include<stdint.h>
 #include<stdlib.h>
+#include<string.h>
 #include"image.h"
 
-int opt_white=0;
+int opt_white;
+int opt_bound_box;
 
 const struct {
   char ascii;
@@ -225,7 +227,10 @@ image_t* make_bound_box(image_t *img)
 void image_to_aa(image_t *img,int width)
 {
   image_to_gray(img);
-  img=make_bound_box(img); 
+
+  if(opt_bound_box)
+    img=make_bound_box(img);
+  
   if(img->width<width)
     {
       fprintf(stderr,"Width = %d is too large.\n",width);
@@ -247,20 +252,44 @@ void image_to_aa(image_t *img,int width)
 
 void option_check(int num,char *opt[])
 {
-  int i;
-  int p;
+  int i,j;
   int invalid=0;
   for(i=3;i<num;i++)
     {
-      if(opt[i][1]=='-')p=1;
-      else p=0;
-      switch(opt[i][1+p])
+      if(opt[i][0]=='-')
 	{
-	case 'w': opt_white=1;break;
-	default : fprintf(stderr,"%s:invalid option\n",opt[i]);invalid=1;break;
+	  if(opt[i][1]=='-')
+	    {
+	      if(strcmp(opt[i],"--white-back")==0)
+		opt_white=1;
+	      else if(strcmp(opt[i],"--bound-box")==0)
+		opt_bound_box=1;
+	      else
+		{
+		  fprintf(stderr,"%s:invalid option\n",opt[i]);
+		  invalid=1;
+		}
+	    }
+	  else
+	    {
+	      for(j=1;opt[i][j]!='\0';j++)
+		switch(opt[i][j])
+		  {
+		  case 'w': opt_white=1;break;
+		  case 'b': opt_bound_box=1;break;
+		  default : fprintf(stderr,"-%c:invalid option\n",opt[i][j]);invalid=1;break;
+		  }
+	    }
+	}
+      else
+	{
+	  fprintf(stderr,"%s:invalid option\n",opt[i]);
+	  invalid=1;
+	  break;
 	}
     }
   if(invalid)exit(1);
+  printf("aiut"); // debug
 }
 
 int main(int argc,char *argv[])
