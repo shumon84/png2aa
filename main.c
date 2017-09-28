@@ -147,8 +147,9 @@ double white_ratio(image_t *img,int y1,int y2,int x1,int x2)
 	sum+=img->map[i][j].g;
 	n++;
       }
-
-  return ((double)sum/n)/255*0.268091*0.8;
+  double ratio=(double)sum/n;
+  if(opt_white)ratio=255-ratio;
+  return ratio/255*0.268091;
 }
 
 char block_to_ascii(image_t *img,double unitH,double unitW,int y,int x)
@@ -264,7 +265,7 @@ void option_check(int num,char *opt[])
 
 int main(int argc,char *argv[])
 {
-  if(argc<=3)
+  if(argc<3)
     {
       fprintf(stderr,"Usage:%s [*.png|*.jpg|*.bmp|*.pnm] [width] [-option]\n",argv[0]);
       exit(1);
