@@ -13,7 +13,10 @@ OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:%.$(EXTENSION)=%.o))
 DEPEND_FILE = $(PROGRAM).dpd
 
-$(PROGRAM): $(OBJ_DIR) $(OBJS) TAGS
+.PHONY: all
+all: tags $(PROGRAM)
+
+$(PROGRAM): $(OBJ_DIR) $(OBJS)
 	$(CC) -o $(PROGRAM) $(OBJS) $(CFLAGS) $(LDFLAGS)
 
 $(OBJS): Makefile
@@ -24,21 +27,20 @@ $(OBJ_DIR):
 $(OBJ_DIR)/%.o: %.$(EXTENSION)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-TAGS: $(SRC)
-	find . -name "*.$(EXTENSION)" | etags -
-
-.PHONY: all clean depend tags
-
-all: $(PROGRAM)
-
+.PHONY: clean
 clean:
 	$(RM) $(PROGRAM)
 	$(RM) $(DEPEND_FILE)
 	$(RM) $(OBJ_DIR)
 	$(RM) TAGS
 
+.PHONY: depend
 depend: $(DEPEND_FILE)
 $(DEPEND_FILE):
 	$(CC) -MM $(SRCS) | sed -e 's/^/$(OBJ_DIR)\//g' > $(DEPEND_FILE)
 
 -include $(DEPEND_FILE)
+
+.PHONY: tags
+tags: $(SRC)
+	find . -name "*.$(EXTENSION)" | etags -
