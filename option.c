@@ -3,6 +3,7 @@
 
 int opt_white;
 int opt_bound_box;
+int opt_color;
 
 void option_check(int num,char *opt[])
 {
@@ -18,6 +19,8 @@ void option_check(int num,char *opt[])
 		opt_white=1;
 	      else if(strcmp(opt[i],"--bound-box")==0)
 		opt_bound_box=1;
+	      else if(strcmp(opt[i],"--color")==0)
+		opt_color=1;
 	      else
 		{
 		  fprintf(stderr,"%s:invalid option\n",opt[i]);
@@ -31,6 +34,7 @@ void option_check(int num,char *opt[])
 		  {
 		  case 'w': opt_white=1;break;
 		  case 'b': opt_bound_box=1;break;
+		  case 'c': opt_color=1;break;
 		  default : fprintf(stderr,"-%c:invalid option\n",opt[i][j]);invalid=1;break;
 		  }
 	    }
