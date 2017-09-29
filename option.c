@@ -1,5 +1,6 @@
 #include"image.h"
 #include<stdlib.h>
+#include<string.h>
 
 int opt_white;
 int opt_bound_box;
