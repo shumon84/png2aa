@@ -14,8 +14,8 @@ int main(int argc,char *argv[])
       fprintf(stderr,"Usage:%s [*.png|*.jpg|*.bmp|*.pnm] [width] [-option]\n",argv[0]);
       exit(1);
     }
-  uint32_t width=0;
-  if(!sscanf(argv[2],"%ud",&width) || width<0)
+  int32_t width=0;
+  if(!sscanf(argv[2],"%d",&width) || width<0)
     {
       fprintf(stderr,"\"%s\" is not unsigned int.\n",argv[2]);
       exit(1);
