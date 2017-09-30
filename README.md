@@ -3,8 +3,16 @@
 
 This program is image file conversion to AA(ascii art).
 
+## Option
+- -w, --white-back
+  - Invert black and white. This option use it if the background color is white.
+- -b, --bound-box
+  - Ignore the area with black only. It is an option for transparent images.
+- -c, --color
+  - Output colorful ascii art. 
+
 ## Usage
-$ ./png2aa [image file] [width]
+$ ./png2aa [file] [width] [-option]
 
 [width] must be greater than 0 and less than the image width.
 
