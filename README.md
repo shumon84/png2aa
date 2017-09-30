@@ -7,7 +7,7 @@ This program is image file conversion to AA(ascii art).
 ## Usage
 `$ png2aa [file] [width] [-option]`
 
-[width] must be greater than 0 and less than the image width.
+`[width]` must be greater than 0 and less than the image width.
 
 ## Supported image file formats
 1. PNG
@@ -16,11 +16,11 @@ This program is image file conversion to AA(ascii art).
 1. PNM(PPM/PMG/PBM)
 
 ## Option
-- -w, --white-back
+- `-w`, `--white-back`
   - Invert black and white. This option use it if the background color is white.
-- -b, --bound-box
+- `-b`, `--bound-box`
   - Ignore the area with black only. It is an option for transparent images.
-- -c, --color
+- `-c`, `--color`
   - Output colorful ascii art. 
 
 ## Install for MaxOS
