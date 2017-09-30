@@ -71,7 +71,6 @@ image_t *clone_image(image_t *img);
 void free_image(image_t *img);
 color_t color_from_rgb(uint8_t r, uint8_t g, uint8_t b);
 color_t color_from_rgba(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-image_t *insert_pixcel(image_t* img,uint32_t x,uint32_t y,color_t color);
 image_t *image_to_index(image_t *img);
 image_t *image_to_gray(image_t *img);
 image_t *image_to_rgb(image_t *img);
