@@ -1,5 +1,5 @@
 # png2aa
-[![license](https://github.com/shumon84/png2aa/blob/master/LICENSE)](./LICENSE)
+[![license](https://img.shields.io/github/license/shumon/png2aa.svg)](./LICENSE)
 
 This program is image file conversion to AA(ascii art).
 
