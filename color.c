@@ -266,8 +266,8 @@ uint32_t color_average(image_t *img,uint32_t y1,uint32_t y2,uint32_t x1,uint32_t
   uint64_t g=0;
   uint64_t b=0;
   uint64_t n=0;
-  for(i=y1;i<y2&&i<img->height;i++)
-    for(j=x1;j<x2&&j<img->width;j++)
+  for(i=y1;i<y2;i++)
+    for(j=x1;j<x2;j++)
       {
 	r+=img->map[i][j].c.r;
 	g+=img->map[i][j].c.g;
