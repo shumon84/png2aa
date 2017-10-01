@@ -116,7 +116,9 @@ double white_ratio(image_t *img,uint32_t y1,uint32_t y2,uint32_t x1,uint32_t x2)
 	sum+=img->map[i][j].g;
 	n++;
       }
+  printf("%llu/%llu,",sum,n); // debug
   double ratio=(double)sum/n;
+  //  printf("%.2f,",ratio); // debug
   if(opt_white)ratio=255-ratio;
   return ratio/255*0.268091;
 }
@@ -133,7 +135,6 @@ void block_to_ascii(image_t *img,double unitH,double unitW,uint32_t y,uint32_t x
     ascii=palette[i].ascii;
   else
     ascii=palette[i-1].ascii;
-
-  putchar(ascii);
+  //  putchar(ascii);
 }
   
