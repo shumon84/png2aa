@@ -23,7 +23,7 @@ This program is image file conversion to AA(ascii art).
 - `-c`, `--color`
   - Output colorful ascii art. 
 
-## Install for MaxOS
+## Install for MacOS
 Required Homebrew.
 
 `$ tap shumon84/png2aa`
