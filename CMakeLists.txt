@@ -35,4 +35,5 @@ target_link_libraries(
   png
   z
   jpeg
+  m
  )
